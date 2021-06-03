@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kube_state_CLUSTERNAME
+  annotations:
+    metrics.dynatrace.com/port: '8080'
+    metrics.dynatrace.com/scrape: 'true'
+    metrics.dynatrace.com/path: '/metrics'
+spec:
+  ports:
+    - name: dynatrace-monitoring-node-exporter-port
+      port: 9220
+  selector:
+          app.kubernetes.io/name: kube-state-metrics
+  clusterIP: None

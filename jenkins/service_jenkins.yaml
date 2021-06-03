@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: jenkins_exporter_CLUSTERNAME_TOREPLACE
+  namespace: jenkins
+  annotations:
+    metrics.dynatrace.com/port: '8080'
+    metrics.dynatrace.com/scrape: 'true'
+    metrics.dynatrace.com/path: '/prometheus'
+spec:
+  ports:
+    - name: dynatrace-monitoring-jenkins-exporter-port
+      port: 9230
+  selector:
+    app.kubernetes.io/name: jenkins
+
+  clusterIP: None

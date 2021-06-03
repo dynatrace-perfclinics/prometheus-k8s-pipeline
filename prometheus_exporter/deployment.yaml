@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  creationTimestamp: null
+  labels:
+    app: tracer
+  name: tracer_CLUSTERNAME
+spec:
+  selector:
+    matchLabels:
+      app: tracer
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: tracer
+    spec:
+      hostNetwork: true
+      hostPID: true
+      containers:
+      - image: hrexed/ebpf_exporter_v2:latest
+        name: bpf-exporter
+        args: [--config.file, "/etc/ebpfexporter/config.yaml"]
+        ports:
+        - containerPort: 9435
+          name: http
+        resources: {}
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: config
+          mountPath: /etc/ebpfexporter
+        - mountPath: /lib/modules
+          name: mod
+        - mountPath: /usr/src
+          name: src
+        - mountPath: /sys
+          name: sys
+      volumes:
+      - name: config
+        configMap:
+          name: bpf-exporter-config
+      - hostPath:
+          path: /lib/modules
+          type: ""
+        name: mod
+      - hostPath:
+          path: /usr/src
+          type: ""
+        name: src
+      - hostPath:
+          path: /sys
+          type: ""
+        name: sys
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: tracer
+  name: tracer
+  annotations:
+    metrics.dynatrace.com/port: '9435'
+    metrics.dynatrace.com/scrape: 'true'
+    metrics.dynatrace.com/path: '/metrics'
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '9435'
+spec:
+  clusterIP: None
+  ports:
+  - name: http
+    port: 9110
+    targetPort: http
+  selector:
+    app: tracer
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: tracer
+spec:
+  endpoints:
+  - interval: 15s
+    port: http
+  selector:
+    matchLabels:
+      app: tracer
