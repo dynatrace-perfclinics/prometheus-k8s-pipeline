@@ -17,7 +17,7 @@ pipeline {
             steps {
                 container('kubectl') {
                     script {
-                        sed -i "s/CLUSTERNAME_TOREPLACE/${CLUSTERNAME}/" jenkins/service_jenkins.yaml
+                        sed -i "s/CLUSTERNAME_TOREPLACE/${CLUSTERNAME}/ jenkins/service_jenkins.yaml"
                         echo "Deploying service to collect Jenkins Prometeus Metrics"
                         kubectl apply -f jenkins/service_jenkins.yaml
                     }
@@ -28,13 +28,14 @@ pipeline {
                     steps {
                         container('monaco') {
                             withCredentials([string(credentialsId: 'DT_TOKEN', variable: 'TOKEN')]) {
-                                sed -i "s,DT_URL_TO_REPLACE,${DT_URL}," monaco/k8sMonitoring/environment.yaml
-                                sed -i "s/DT_API_TOKEN/${TOKEN}/" monaco/k8sMonitoring/environment.yaml
+                                sed -i "s,DT_URL_TO_REPLACE,${DT_URL}, monaco/k8sMonitoring/environment.yaml"
+                                sed -i "s/DT_API_TOKEN/${TOKEN}/ monaco/k8sMonitoring/environment.yaml"
                                 echo "Deploying service to collect Jenkins Prometeus Metrics"
                                 monaco deploy -e monaco/k8sMonitoring/environment.yaml --project  monaco/k8sMonitoring -v
-                            }
+
+                             }
                         }
                     }
-                }
+         }
     }
 }
