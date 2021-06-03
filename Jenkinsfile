@@ -31,8 +31,7 @@ pipeline {
                                 sh "sed -i s,DT_URL_TO_REPLACE,${DT_URL}, monaco/k8sMonitoring/environment.yaml"
                                 sh "sed -i s/DT_API_TOKEN/${TOKEN}/ monaco/k8sMonitoring/environment.yaml"
                                 sh "echo Deploying service to collect Jenkins Prometeus Metrics"
-                                sh "monaco deploy -e monaco/k8sMonitoring/environment.yaml --project  monaco/k8sMonitoring -v
-
+                                sh "monaco deploy -e monaco/k8sMonitoring/environment.yaml --project  monaco/k8sMonitoring -v"
                              }
                         }
                     }
