@@ -22,6 +22,7 @@ pipeline {
                     script {
                         sh "sed -i s/CLUSTERNAME_TOREPLACE/${CLUSTERNAME}/ jenkins/service_jenkins.yaml"
                         sh "echo Deploying service to collect Jenkins Prometeus Metrics"
+                        sh "cat jenkins/service_jenkins.yaml"
                         sh "kubectl apply -f jenkins/service_jenkins.yaml"
                     }
                 }
