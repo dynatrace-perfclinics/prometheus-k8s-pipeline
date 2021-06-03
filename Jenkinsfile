@@ -9,8 +9,11 @@ pipeline {
     stages {
          stage('Checkout') {
                 steps {
-                    git  url:"https://github.com/dynatrace-perfclinics/prometheus-k8s-pipeline.git",
-                        branch :'master'
+                checkout([$class: 'GitSCM',
+                          branches: [[name: 'master']],
+                          extensions: [],
+                          userRemoteConfigs: [[url: 'https://github.com/dynatrace-perfclinics/prometheus-k8s-pipeline']]])
+
                 }
          }
          stage('Deploy Prometeus annotations') {
