@@ -3,7 +3,7 @@ config:
 prometheus-overview:
   - name: "New Kubernetes Dashboard"
   - owner: "{{ .Env.DT_USER }}"
-  - queryStatus: "((\"kube_pod_status_phase\":filter(and(eq(phase,Running))):splitBy(namespace):sum:auto:sort(value(avg,descending)):limit(20))/(\"kube_pod_status_phase\":splitBy(namespace):sum:auto:sort(value(avg,descending)):limit(20)))*(100)"
+  - queryStatus: "((\\\"kube_pod_status_phase\\\":filter(and(eq(phase,Running))):splitBy(namespace):sum:auto:sort(value(avg,descending)):limit(20))/(\\\"kube_pod_status_phase\\\":splitBy(namespace):sum:auto:sort(value(avg,descending)):limit(20)))*(100)"
   - graphMetric: "ebpf_exporter_page_cache_ops_total.count"
   - graphAggregation: "SUM"
   - graphSplitBy: "op"
