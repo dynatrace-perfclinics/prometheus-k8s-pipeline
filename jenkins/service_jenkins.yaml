@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: jenkins_exporter_CLUSTERNAME_TOREPLACE
+  name: jenkins-exporter-CLUSTERNAME_TOREPLACE
   namespace: jenkins
   annotations:
     metrics.dynatrace.com/port: '8080'

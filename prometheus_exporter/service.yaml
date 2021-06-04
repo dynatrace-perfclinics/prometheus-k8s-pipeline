@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: kube_state_CLUSTERNAME
+  name: kube-state-CLUSTERNAME_TOREPLACE
   annotations:
     metrics.dynatrace.com/port: '8080'
     metrics.dynatrace.com/scrape: 'true'
