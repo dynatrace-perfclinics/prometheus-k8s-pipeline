@@ -18,8 +18,11 @@ pipeline {
          }
          stage('Deploy Prometeus annotations') {
             steps {
-                container('kubectl') {
-                    script {
+             }
+                container('monaco') {
+                    withKubeCredentials([
+                                        [credentialsId: 'kubeconfig']
+                                    ]) {
                         sh "sed -i s/CLUSTERNAME_TOREPLACE/${CLUSTERNAME}/ jenkins/service_jenkins.yaml"
                         sh "echo Deploying service to collect Jenkins Prometeus Metrics"
                         sh "cat jenkins/service_jenkins.yaml"

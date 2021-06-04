@@ -211,6 +211,22 @@ controller:
     - workflow-aggregator:2.6
     - git:4.7.1
     - configuration-as-code:1.51
+    - command-launcher:1.6
+    - kubernetes-credentials-provider:0.18-1
+    - workflow-job:2.41
+    - workflow-aggregator:2.6
+    - credentials-binding:1.25
+    - google-oauth-plugin:1.0.5
+    - google-source-plugin:0.4
+    - performance:3.19
+    - github-branch-source:2.10.4
+    - job-dsl:1.77
+    - pipeline-build-step:2.13
+    - docker-plugin:1.2.2
+    - blueocean:1.24.7
+    - configuration-as-code:1.51
+    - http_request:1.9.0
+    - pipeline-utility-steps:2.8.0
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: false
@@ -280,7 +296,53 @@ controller:
   # etc.  Best reference is https://<jenkins_url>/configuration-as-code/reference.  The example below creates a welcome message:
   JCasC:
     defaultConfig: true
-    configScripts: {}
+    configScripts:
+      welcome-message: |
+        jenkins:
+          systemMessage:   🚀 Welcome to your Keptn in a Box 📦 CI\CD server!
+                         This Jenkins is configured and managed 'as code' 🛠
+          globalNodeProperties:
+          - envVars:
+              env:
+              - key: CLUSTERNAME
+                value: CLUSTERNAME.placeholder
+              - key: DT_TENANT
+                value: DT_TENANT.placeholder
+              - key: DT_USER
+                value: DT_USER.placeholder
+
+
+      keptn-library: |
+        unclassified:
+          globalLibraries:
+            libraries:
+            - defaultVersion: "master"
+              name: "keptn-library"
+              retriever:
+                modernSCM:
+                  scm:
+                    git:
+                      remote: "http://github.com/keptn-sandbox/keptn-jenkins-library.git"
+      pipeline-qualitygates-test: |
+        jobs:
+          - script: >
+              pipelineJob('PerformanceClinic Pipeline') {
+                definition {
+                  cpsScm {
+                    scm {
+                      git {
+                        remote {
+                          url('https://github.com/dynatrace-perfclinics/prometheus-k8s-pipeline')
+                        }
+                        branch('master')
+                      }
+                    }
+                    scriptPath 'Jenkinsfile'
+                    lightweight()
+                  }
+                }
+              }
+
     #  welcome-message: |
     #    jenkins:
     #      systemMessage: Welcome to our CI\CD server.  This Jenkins is configured and managed 'as code'.
@@ -667,18 +729,18 @@ agent:
   # For this pod templates configuration to be loaded the following values must be set:
   # controller.JCasC.defaultConfig: true
   # Best reference is https://<jenkins_url>/configuration-as-code/reference#Cloud-kubernetes. The example below creates a python pod template.
-  podTemplates: {}
-  #  python: |
-  #    - name: python
-  #      label: jenkins-python
-  #      serviceAccount: jenkins
-  #      containers:
-  #        - name: python
-  #          image: python:3
-  #          command: "/bin/sh -c"
-  #          args: "cat"
-  #          ttyEnabled: true
-  #          privileged: true
+  podTemplates:
+    monaco-runner: |
+      - name: monaco-runner
+        namespace: jenkins
+        label: monaco-runner
+        serviceAccount: jenkins
+        containers:
+          - name: monaco
+            image: dynatraceace/monaco-runner:release-v1.5.3
+            command: "bat"
+            ttyEnabled: true
+            privileged: true
   #          resourceRequestCpu: "400m"
   #          resourceRequestMemory: "512Mi"
   #          resourceLimitCpu: "1"
