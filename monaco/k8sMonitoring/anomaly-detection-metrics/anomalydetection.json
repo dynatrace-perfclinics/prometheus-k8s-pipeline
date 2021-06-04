@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "configurationVersions": [
+      5
+    ]
+
+  },
+
+  "metricId": "{{ .metricid }}",
+  "name": "{{ .name }}",
+  "description": "The {metricname} value of {severity} was {alert_condition} your custom threshold of {threshold}.",
+  "aggregationType": "AVG",
+  "severity": "{{ .severity }}",
+  "enabled": true,
+  "disabledReason": "NONE",
+  "warningReason": "NONE",
+  "metricDimensions": [
+    {
+      "filterType": "STRING",
+      "key": "{{ .dimensionFilter }}",
+      "name": null,
+      "index": null,
+      "textFilter": {
+        "value": "{{ .dimensionFilterValue }}",
+        "operator": "EQUALS"
+      }
+    }
+  ],
+  "monitoringStrategy": {
+    "type": "STATIC_THRESHOLD",
+    "samples": 5,
+    "violatingSamples": 3,
+    "dealertingSamples": 5,
+    "alertCondition": "BELOW",
+    "alertingOnMissingData": false,
+    "threshold": 1,
+    "unit": "UNSPECIFIED"
+  },
+  "alertCondition": "BELOW",
+  "samples": 5,
+  "violatingSamples": 3,
+  "dealertingSamples": 5,
+  "threshold": 1,
+  "unit": "UNSPECIFIED",
+  "eventType": "AVAILABILITY"
+}

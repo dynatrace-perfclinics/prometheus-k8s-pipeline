@@ -1,9 +1,10 @@
 config:
-  - prometheus-overview: prometheus_example.json
-prometheus-overview:
-  - name: "New Kubernetes Dashboard"
+  - jenkins-overview: jenkins_dashboard.json
+jenkins-overview:
+  - name: "New Jenkins Dashboard"
   - owner: "{{ .Env.DT_USER }}"
+  - queryHealthScore: "(\\\"jenkins_health_check_score\\\":splitBy(\\\"k8s.service.name\\\"):avg:auto:sort(value(avg,descending)):limit(20))*(100)"
   - queryStatus: "((\\\"kube_pod_status_phase\\\":filter(and(eq(phase,Running))):splitBy(namespace):sum:auto:sort(value(avg,descending)):limit(20))/(\\\"kube_pod_status_phase\\\":splitBy(namespace):sum:auto:sort(value(avg,descending)):limit(20)))*(100)"
-  - graphMetric: "ebpf_exporter_page_cache_ops_total.count"
-  - graphAggregation: "SUM"
-  - graphSplitBy: "op"
+  - waitingthreadsMetric: "vm_waiting_count.gauge"
+  - executorqueueLength: "default_jenkins_executors_queue_length"
+  - buildfailurerateQuery: "(\\\"jenkins_runs_failure_total\\\".count:splitBy(\\\"k8s.service.name\\\"):avg:auto:sort(value(avg,descending)):limit(20))/(\\\"jenkins_runs_total_total\\\".count:splitBy(\\\"k8s.service.name\\\"):avg:auto:sort(value(avg,descending)):limit(20))*(100)"

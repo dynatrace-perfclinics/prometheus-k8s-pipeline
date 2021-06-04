@@ -1,0 +1,8 @@
+config:
+  - jenkins-overview: anomalydetection.json
+jenkins-overview:
+  - name: "Jenkins"
+  - owner: "{{ .Env.DT_USER }}"
+  - dimensionName: "jenkins-exporter-"
+  - tagName: "app.kubernetes.io/name"
+  - tagValue: "jenkins"

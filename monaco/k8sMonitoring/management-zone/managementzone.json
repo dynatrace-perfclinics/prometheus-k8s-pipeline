@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "configurationVersions": [
+      0
+    ]
+  },
+
+  "name": "{{ .name }}",
+  "description": null,
+  "rules": [
+    {
+      "type": "SERVICE",
+      "enabled": true,
+      "propagationTypes": [],
+      "conditions": [
+        {
+          "key": {
+            "attribute": "SERVICE_TAGS",
+            "type": "STATIC"
+          },
+          "comparisonInfo": {
+            "type": "TAG",
+            "operator": "EQUALS",
+            "value": {
+              "context": "KUBERNETES",
+              "key": "{{ .tagName }}",
+              "value": "{{ .tagValue }}"
+            },
+            "negate": false
+          }
+        }
+      ]
+    }
+  ],
+  "dimensionalRules": [
+    {
+      "enabled": true,
+      "appliesTo": "ANY",
+      "conditions": [
+        {
+          "conditionType": "DIMENSION",
+          "ruleMatcher": "BEGINS_WITH",
+          "key": "k8s.service.name",
+          "value": "{{ .dimensionName }}"
+        }
+      ]
+    }
+  ],
+  "entitySelectorBasedRules": []
+}
