@@ -1,4 +1,4 @@
 Perfclinic:
   - name: "PerfCProm"
   - env-url: DT_URL_TO_REPLACE
-  - env-token-name: DT_TOKEN
+  - env-token-name: TOKEN
