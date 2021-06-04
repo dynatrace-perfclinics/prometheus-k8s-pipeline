@@ -24,7 +24,7 @@ pipeline {
                         sh "echo Deploying service to collect Jenkins Prometeus Metrics"
                         sh "cat jenkins/service_jenkins.yaml"
                         sh "kubectl get pods"
-                        sh "kubectl apply -f jenkins/service_jenkins.yaml"
+                        sh "kubectl apply -f jenkins/service_jenkins.yaml --validate=false"
                     }
                 }
             }
