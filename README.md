@@ -7,14 +7,14 @@ This repository showcase the usage of the Prometheus OpenMetrics Ingest by using
 - the dynatrace sockshop
 - Jenkins
 
-##Prerequisite 
+## Prerequisite 
 The following tools need to be install on your machine :
 - jq
 - kubectl
 - git
 - gcloud ( if you are using GKE)
 - Helm
-###1.Create a Google Cloud Platform Project
+### 1.Create a Google Cloud Platform Project
 ```
 PROJECT_ID="<your-project-id>"
 gcloud services enable container.googleapis.com --project ${PROJECT_ID}
@@ -24,25 +24,25 @@ clouddebugger.googleapis.com \
 cloudprofiler.googleapis.com \
 --project ${PROJECT_ID}
 ```
-###2.Create a GKE cluster
+### 2.Create a GKE cluster
 ```
 ZONE=us-central1-b
 gcloud container clusters create onlineboutique \
 --project=${PROJECT_ID} --zone=${ZONE} \
 --machine-type=e2-standard-2 --num-nodes=4
 ```
-###2.Clone Github repo
+### 3.Clone Github repo
 ```
 git clone https://github.com/dynatrace-perfclinics/prometheus-k8s-pipeline
 cd prometheus-k8s-pipeline
 ```
-###Deploy the sample Application
-####1.HipsterShop
+### Deploy the sample Application
+#### 1.HipsterShop
 ```
 cd hipstershop
 ./setup.sh
 ```
-####2.Sockshop
+#### 2.Sockshop
 ```
 cd ../sockshop
 kubectl create -f ../manifests/k8s-namespaces.yml
@@ -65,11 +65,11 @@ kubectl apply -f ../manifests/backend-services/orders-db/
 kubectl apply -f ../manifests/sockshop-app/sockshop-dev/
 kubectl apply -f ../manifests/sockshop-app/sockshop-production/
 ```
-###Prometheus
+### Prometheus
 ```
 helm install prometheus stable/prometheus-operator
 ```
-###Jenkins
+### Jenkins
 ```
 cd jenkins
 ./deployJenkins.sh
