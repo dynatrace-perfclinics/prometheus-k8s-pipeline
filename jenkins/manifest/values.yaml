@@ -310,8 +310,19 @@ controller:
                 value: DT_TENANT.placeholder
               - key: DT_USER
                 value: DT_USER.placeholder
-
-
+          credentials:
+            system:
+              domainCredentials:
+                - credentials:
+                    - basicSSHUserPrivateKey:
+                        scope: SYSTEM
+                        id: ssh_with_passphrase_provided
+                        username: ssh_root
+                        passphrase: ${SSH_KEY_PASSWORD}
+                        description: "SSH passphrase with private key file. Private key provided"
+                        privateKeySource:
+                          directEntry:
+                            privateKey: ${SSH_PRIVATE_KEY}
       keptn-library: |
         unclassified:
           globalLibraries:
@@ -323,7 +334,7 @@ controller:
                   scm:
                     git:
                       remote: "http://github.com/keptn-sandbox/keptn-jenkins-library.git"
-      pipeline-qualitygates-test: |
+      pipeline-PrometheusExporter: |
         jobs:
           - script: >
               pipelineJob('PerformanceClinic Pipeline') {

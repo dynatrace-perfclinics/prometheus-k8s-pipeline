@@ -1,0 +1,119 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogue-db
+  labels:
+    name: catalogue-db
+  namespace: sockshop-dev
+spec:
+  selector:
+    matchLabels:
+      name: catalogue-db
+      stage: dev
+      version: "2.0"
+      tier: data
+      product: sockshop
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        pipeline.stage: dev
+        pipeline.build: 2.0.0.6347
+        pipeline.project: sockshop
+        support.contact: "mary.poppins@sockshop.com"
+        support.channel: "#support-sockshop-data"
+      labels:
+        name: catalogue-db
+        stage: dev
+        version: "2.0"
+        tier: data
+        product: sockshop
+    spec:
+      containers:
+      - name: catalogue-db
+        image: dynatracesockshop/catalogue-db
+        securityContext:
+          privileged: true
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: fake_password
+          - name: MYSQL_DATABASE
+            value: socksdb
+        ports:
+        - name: mysql
+          containerPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue-db
+  labels:
+    name: catalogue-db
+  namespace: sockshop-dev
+spec:
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    name: catalogue-db
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogue-db
+  labels:
+    name: catalogue-db
+  namespace: sockshop-production
+spec:
+  selector:
+    matchLabels:
+      name: catalogue-db
+      stage: prod
+      version: "1.4"
+      tier: data
+      product: sockshop
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        pipeline.stage: prod-stable
+        pipeline.build: 1.4.3.0054
+        pipeline.project: sockshop
+        support.contact: "mary.poppins@sockshop.com"
+        support.channel: "#support-sockshop-data"
+      labels:
+        name: catalogue-db
+        stage: prod
+        version: "1.4"
+        tier: data
+        product: sockshop
+    spec:
+      containers:
+      - name: catalogue-db
+        image: dynatracesockshop/catalogue-db
+        securityContext:
+          privileged: true
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: fake_password
+          - name: MYSQL_DATABASE
+            value: socksdb
+        ports:
+        - name: mysql
+          containerPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue-db
+  labels:
+    name: catalogue-db
+  namespace: sockshop-production
+spec:
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    name: catalogue-db

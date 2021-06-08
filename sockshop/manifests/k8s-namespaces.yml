@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sockshop-dev
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sockshop-production
+  labels:
+    istio-injection: enabled
+

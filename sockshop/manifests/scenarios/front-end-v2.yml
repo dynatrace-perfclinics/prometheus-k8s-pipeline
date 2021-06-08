@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-end-v2
+  namespace: sockshop-production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-end
+      stage: prod
+      release: canary
+      version: v2
+      tier: "frontend"
+      product: "sockshop"
+  template:
+    metadata:
+      annotations:
+        pipeline.stage: prod-stable
+        pipeline.build: 1.4.0.7424
+        pipeline.project: sockshop
+        support.contact: "jane.smith@sockshop.com"
+        support.channel: "#support-sockshop-frontend"
+      labels:
+        app: front-end
+        stage: prod
+        release: canary
+        version: v2
+        tier: "frontend"
+        product: "sockshop"
+    spec:
+      containers:
+      - name: front-end
+        image: safiahabib/front-end:v2
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+

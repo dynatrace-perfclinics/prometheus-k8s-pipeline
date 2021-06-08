@@ -1,0 +1,66 @@
+# permissions to allow kube-netc to operate
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  namespace: kube-system
+  name: netc-rbac
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+---
+# kube-netc daemon set
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-netc
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: kube-netc
+  template:
+    metadata:
+      labels:
+        name: kube-netc
+    spec:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+      containers:
+        - name: kube-netc
+          image:  nirmata/kube-netc
+          args: ["-v", "info"]
+          imagePullPolicy:  Always
+          ports:
+            - containerPort: 2112
+              protocol: TCP
+          resources: {}
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: debug
+              mountPath: /sys/kernel/debug
+            - name: bpf
+              mountPath: /sys/fs/bpf
+            - name: cgroup
+              mountPath: /sys/fs/cgroup
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: bpf
+          hostPath:
+            path: /sys/fs/bpf
+        - name: cgroup
+          hostPath:
+            path: /sys/fs/cgroup
+        - name: debug
+          hostPath:
+            path: /sys/kernel/debug
+        - name: tmp
+          emptyDir: {}
+      terminationGracePeriodSeconds: 10

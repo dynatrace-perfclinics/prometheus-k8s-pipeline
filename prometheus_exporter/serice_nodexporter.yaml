@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metrics.dynatrace.com/path: /metrics
+    metrics.dynatrace.com/port: "9100"
+    metrics.dynatrace.com/scrape: "true"
+  name: CLUSTERNAME_TOREPLACE-nodeexporter
+spec:
+  clusterIP: None
+  ports:
+    - name: dynatrace-monitoring-node-exporter-port
+      port: 9220
+  selector:
+    app: prometheus-node-exporter
