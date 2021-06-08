@@ -28,7 +28,7 @@ spec:
 ```
 Let's replace CLUSTER_TOREPLACE with the name of our cluser and deploy it
 ```
-kubectl apply -t ../prometheus_exporter/service.yaml
+kubectl apply -t ../prometheus_exporter/service_nodeexporter.yaml
 ```
 ## Step 1 : use the metric explorer to create a graph
 ![Metric Explorer](../../image/metric_explorer.png)
