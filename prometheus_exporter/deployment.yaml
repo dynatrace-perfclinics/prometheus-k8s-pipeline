@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: tracer
-  name: tracer_CLUSTERNAME
+  name: tracerPerfclinic_CLUSTERNAME
 spec:
   selector:
     matchLabels:
@@ -39,7 +39,7 @@ spec:
       volumes:
       - name: config
         configMap:
-          name: bpf-exporter-config
+          name: bpf-exporter-configmap
       - hostPath:
           path: /lib/modules
           type: ""
@@ -60,9 +60,6 @@ metadata:
     app: tracer
   name: tracer
   annotations:
-    metrics.dynatrace.com/port: '9435'
-    metrics.dynatrace.com/scrape: 'true'
-    metrics.dynatrace.com/path: '/metrics'
     prometheus.io/scrape: 'true'
     prometheus.io/port: '9435'
 spec:

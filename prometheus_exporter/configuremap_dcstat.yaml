@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: bpf-exporter-config
+  name: bpf-exporter-configmap
   labels:
      app: tracer
 data:
