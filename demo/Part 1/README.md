@@ -52,14 +52,14 @@ let's see that we have metrics exposed :
 curl http://localhost:9435/metrics
 
 ```
-## Step 0 : Let's modify the deployment to add dynatrace scraping annotations
+## Step 1 : Let's modify the deployment to add dynatrace scraping annotations
 Add the following annotations on the spec of the Daemonset :
 ```
 metrics.dynatrace.com/port: '9435'
 metrics.dynatrace.com/scrape: 'true'
 metrics.dynatrace.com/path: '/metrics'
 ```
-## Step 1 : let's focus on our usecase - collect kubestat metrics
+## Step 2 : let's focus on our usecase - collect kubestat metrics
 In order to modify the deployment of prometheus, we are going to create a service
 ```
 kind: Service
@@ -83,5 +83,5 @@ Let's replace CLUSTER_TOREPLACE with the name of our cluser and deploy it
 ```
 kubectl apply -t ../prometheus_exporter/service.yaml
 ```
-## Step 2 : use the metric explorer to create a graph
+## Step 3 : use the metric explorer to create a graph
 ![Metric Explorer](../../image/metric_explorer.png)
