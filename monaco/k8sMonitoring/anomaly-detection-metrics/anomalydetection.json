@@ -5,11 +5,10 @@
     ]
 
   },
-
+  "metricId" : null,
   "metricSelector": "{{ .metricid }}",
   "name": "{{ .name }}",
   "description": "The {metricname} value of {severity} was {alert_condition} your custom threshold of {threshold}.",
-  "aggregationType": "AVG",
   "severity": "{{ .severity }}",
   "enabled": true,
   "disabledReason": "NONE",
@@ -21,14 +20,7 @@
     "dealertingSamples": 5,
     "alertCondition": "BELOW",
     "alertingOnMissingData": true,
-    "threshold": 60,
+    "threshold": 90,
     "unit": "UNSPECIFIED"
-  },
-  "alertCondition": "BELOW",
-  "samples": 5,
-  "violatingSamples": 3,
-  "dealertingSamples": 5,
-  "threshold": 60,
-  "unit": "UNSPECIFIED",
-  "eventType": "AVAILABILITY"
+  }
 }
