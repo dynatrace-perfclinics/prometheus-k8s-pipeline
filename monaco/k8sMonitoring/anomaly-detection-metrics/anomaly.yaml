@@ -5,5 +5,4 @@ jenkins-overview:
   - owner: "{{ .Env.DT_USER }}"
   - severity: "AVAILABILITY"
   - metricid: "jenkins_health_check_score"
-  - dimensionFilter: "k8s\.service\.name"
   - dimensionFilterValue: "jenkins-exporter-onlineboutique"

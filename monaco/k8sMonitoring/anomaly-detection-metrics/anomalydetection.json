@@ -17,7 +17,7 @@
   "metricDimensions": [
     {
       "filterType": "STRING",
-      "key": "{{ .dimensionFilter }}",
+      "key": "k8s.service.name",
       "name": null,
       "index": null,
       "textFilter": {
