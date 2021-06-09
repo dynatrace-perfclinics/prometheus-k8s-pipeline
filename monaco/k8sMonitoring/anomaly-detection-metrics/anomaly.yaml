@@ -4,6 +4,4 @@ jenkins-overview:
   - name: "JenkinsHeathScore"
   - owner: "{{ .Env.DT_USER }}"
   - severity: "AVAILABILITY"
-  - metricid: "jenkins_health_check_score"
-  - dimensionFilter: "k8s.service.name"
-  - dimensionFilterValue: "jenkins-exporter-onlineboutique"
+  - metricid: "(\\\"jenkins_health_check_score\\\":filter(and(eq(\\\"k8s.service.name\\\",jenkins-exporter-onlineboutique))):splitBy():avg:auto:sort(value(avg,descending)):limit(20))*(100)"
