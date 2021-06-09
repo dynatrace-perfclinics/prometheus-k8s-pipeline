@@ -1,5 +1,5 @@
 config:
-  - jenkins-overview: anomalydetection.json
+  - jenkins-overview: managementzone.json
 jenkins-overview:
   - name: "Jenkins"
   - owner: "{{ .Env.DT_USER }}"
